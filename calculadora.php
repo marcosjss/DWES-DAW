@@ -1,3 +1,7 @@
+<?php
+    error_reporting(0);
+?>
+
 <head>
     <title>Calculadora Marcos Suarez</title>
 </head>
