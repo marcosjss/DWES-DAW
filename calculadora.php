@@ -1,3 +1,19 @@
+<head>
+    <title>Calculadora Marcos Suarez</title>
+</head>
+<body>
+    <form action="calculadora.php" method="post">
+        <input type="number" id="numero1" name="numero1" placeholder="Escribe un numero" required><br>
+        <input type="number" id="numero2" name="numero2" placeholder="Escribe un numero" required><br>
+        <select name="tipo_operacion" id="tipo_operacion">
+            <option value="suma">+</option>
+            <option value="resta">-</option>
+            <option value="multiplicacion">*</option>
+            <option value="division">/</option>
+        </select><br>
+        <button type="submit" class="btn-submit">Realizar operacion</button><br>
+    </form>
+
 <?php
     $x = $_POST['numero1'];
     $y = $_POST['numero2'];
@@ -20,21 +36,5 @@
         }
     }
 ?>
-
-<head>
-    <title>Calculadora Marcos Suarez</title>
-</head>
-<body>
-    <form action="" method="post">
-        <input type="number" id="numero1" name="numero1" placeholder="Escribe un numero" required><br>
-        <input type="number" id="numero2" name="numero2" placeholder="Escribe un numero" required><br>
-        <select name="tipo_operacion" id="tipo_operacion">
-            <option value="suma">+</option>
-            <option value="resta">-</option>
-            <option value="multiplicacion">*</option>
-            <option value="division">/</option>
-        </select><br>
-        <button type="submit" class="btn-submit">Realizar operacion</button><br>
-    </form>  
-    <p>Resultado:<?php echo" $resultado"; ?><p>
+    <p>Resultado:<?php echo" $resultado"; ?></p>
 </body>
