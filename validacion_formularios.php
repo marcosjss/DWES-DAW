@@ -3,7 +3,6 @@
 <body>  
 
 <?php
-// Definición de variables y asignación de valores vacíos
 $nameErr = $emailErr = $genderErr = $websiteErr = "";
 $name = $email = $gender = $comment = $website = "";
 
@@ -12,7 +11,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $nameErr = "Name is required";
   } else {
     $name = test_input($_POST["name"]);
-    // Comprueba que el nombre solo contiene letras y espacios[cite: 2, 3]
     if (!preg_match("/^[a-zA-Z ]*$/",$name)) {
       $nameErr = "Only letters and white space allowed";
     }
@@ -22,7 +20,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $emailErr = "Email is required";
   } else {
     $email = test_input($_POST["email"]);
-    // Comprueba si el formato de email es válido[cite: 2, 3]
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
       $emailErr = "Invalid email format";
     }
@@ -32,7 +29,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $website = "";
   } else {
     $website = test_input($_POST["website"]);
-    // Comprueba si el formato de la URL es válido[cite: 3]
     if (!filter_var($website, FILTER_VALIDATE_URL)) {
       $websiteErr = "Invalid URL";
     }
@@ -51,7 +47,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   }
 }
 
-// Función para sanear los datos de entrada[cite: 1]
 function test_input($valor) {
   $valor = trim($valor);
   $valor = stripslashes($valor);
@@ -60,11 +55,10 @@ function test_input($valor) {
 }
 ?>
 
-<h2>PHP Form Validation Example</h2>
-<p>* required field</p>
-<!-- El formulario se envía a sí mismo mediante $_SERVER["PHP_SELF"][cite: 1] -->
+<h2>Validacion formulario</h2>
+<p>* Campo requerido</p>
 <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">  
-  Name: <input type="text" name="name" value="<?php echo $name;?>">
+  Nombre: <input type="text" name="name" value="<?php echo $name;?>">
   * <?php echo $nameErr;?>
   <br><br>
   
@@ -72,17 +66,16 @@ function test_input($valor) {
   * <?php echo $emailErr;?>
   <br><br>
   
-  Website: <input type="text" name="website" value="<?php echo $website;?>">
+  Web: <input type="text" name="website" value="<?php echo $website;?>">
   <?php echo $websiteErr;?>
   <br><br>
   
-  Comment: <textarea name="comment" rows="5" cols="40"><?php echo $comment;?></textarea>
+  Comentario: <textarea name="comment" rows="5" cols="40"><?php echo $comment;?></textarea>
   <br><br>
   
-  Gender:
-  <!-- Mantiene la selección del radio button tras el envío[cite: 1] -->
-  <input type="radio" name="gender" <?php if (isset($gender) && $gender=="Female") echo "checked";?> value="Female">Female
-  <input type="radio" name="gender" <?php if (isset($gender) && $gender=="Male") echo "checked";?> value="Male">Male
+  Genero:
+  <input type="radio" name="gender" <?php if (isset($gender) && $gender=="Female") echo "checked";?> value="Female">Mujer
+  <input type="radio" name="gender" <?php if (isset($gender) && $gender=="Male") echo "checked";?> value="Male">Hombre
   * <?php echo $genderErr;?>
   <br><br>
   
@@ -90,7 +83,6 @@ function test_input($valor) {
 </form>
 
 <?php
-// Muestra los valores introducidos sean correctos o no[cite: 3]
 echo "<h2>Your Input:</h2>";
 echo $name;
 echo "<br>";
