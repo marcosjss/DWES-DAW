@@ -1,5 +1,7 @@
 <?php
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+$r = "";
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['a'], $_POST['b'], $_POST['c'])) {
     $a = (float) $_POST['a'];
     $b = (float) $_POST['b'];
     $c = (float) $_POST['c'];
@@ -29,3 +31,16 @@ function ecuacion($a, $b, $c) {
 
     return [$x1, $x2];
 }
+
+function palindrono($cadena) {
+    $cadena= strtolower(str_replace(' ', '', trim($cadena)));
+    if ($cadena == strrev($cadena)) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+/*function limite {
+
+}*/
