@@ -15,7 +15,9 @@
             <button type="submit">Calcular</button>
         </form>
         <p><?php echo $r; ?></p>
+        
         <br>
+        
         <h3>Palíndromo</h3>
         <form method="post">
             <input type="text" name="cadena" placeholder="Ingrese una cadena" required>
@@ -33,5 +35,38 @@
             }
             ?>
         </p>
+
+        <br>
+        
+        <h3 for="limite">Introduce cuántos primeros números quieres ver del Array[10, 45, 2, 8, 33, 15, 7, 12, 50, 4]</h3>
+        <form method="post">
+            <input type="number" id="limite" name="limite" min="0" required>
+            <input type="submit">
+        </form>
+        <p>
+        <?php
+            if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['limite'])) {
+                $limite = $_POST['limite'];
+                $resultadoLimite = limite($arrayPredeterminado, $limite);
+                echo "<p>Los primeros $limite números del array: " . implode(', ', $resultadoLimite) . "</p>";
+            }
+        ?>
+        </p>
+        
+        <br>
+            
+        <h3>Prueba de Funciones PHP</h3>
+
+        <form method="POST">
+            <p>Haz clic en el botón para ejecutar la prueba de 3 funciones por bloque.</p>
+            <input type="hidden" name="ejecutar_pruebas" value="1">
+            <button type="submit">Mostrar pruebas</button>
+        </form>
+
+        <?php
+            if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ejecutar_pruebas'])) {
+                ejecutarPruebas();
+            }
+        ?>
     </body>
 </html>
