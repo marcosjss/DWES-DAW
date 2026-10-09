@@ -1,11 +1,10 @@
-<!--HTML-->
-<!--Pantalla seleccion nivel de dificultad elegir numero de circulo entre 4 y 8 y el numero de colores se puede seleccionar entre 4 a 8 colores-->
+<!--Logica-->
 <?php
     $colores = array("blue", "red", "green", "yellow", "orange", "pink", "purple", "gray");
     $nCirculos = isset($_POST['nCirculos']) ? (int) $_POST['nCirculos'] : 4;
     $nColores = isset($_POST['nColores']) ? (int) $_POST['nColores'] : 4;
-//Logica
-function pintar_circulos(array $colores, int $nCirculos) {
+
+    function pintar_circulos(array $colores) {
     $color = $colores[array_rand($colores)];
     return $color;
 }
@@ -16,12 +15,9 @@ function numero_colores(array $colores, int $nColores) {
     }
     return array_slice($colores, 0, $nColores);
 }
-
-//function seleccionar_color(array $colores, int $nCirculos) {
-
-//}
 ?>
 
+<!--HTML-->
 <!DOCTYPE html>
 <html lang="es">
     <head>
@@ -42,20 +38,8 @@ function numero_colores(array $colores, int $nColores) {
 
         <?php for ($k = 0; $k < $nCirculos; $k++): ?>
             <svg width="200" height="200">
-                <circle cx="70" cy="70" r="70" fill="<?= pintar_circulos(numero_colores($colores, $nColores), $nCirculos) ?>" />
+                <circle cx="70" cy="70" r="70" fill="<?= pintar_circulos(numero_colores($colores, $nColores)) ?>" />
             </svg>
-        <?php endfor; ?>
-        <br>
-        <?php for ($k = 0; $k < $nCirculos; $k++): ?>
-            <svg width="200" height="200">
-                <circle cx="70" cy="70" r="70" fill="" />
-            </svg>
-            <select id="seleccion" name="seleccion">
-                <?php foreach (numero_colores($colores, $nColores) as $color): ?>
-                    <option value="<?= $color ?>"><?= ucfirst($color) ?></option>
-                <?php endforeach; ?>
-            </select>
         <?php endfor; ?>
     </body>
 </html>
-
