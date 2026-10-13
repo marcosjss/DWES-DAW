@@ -49,9 +49,6 @@
             <input type="submit" value="Jugar">
             <button type="submit" name="accion" value="reiniciar">Volver a poner en negro</button>
         </form>
-        <form action="mostrar_combinacion.php" method="get">
-            <button type="submit">Ver combinación</button>
-        </form>
         <br>
 
         <?php for ($k = 0; $k < $nCirculos; $k++): ?>

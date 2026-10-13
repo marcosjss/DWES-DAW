@@ -10,7 +10,4 @@
             </svg>";
     };
     echo "</ul>";
-    echo "<form action='simon.php' method='get'>
-        <button type='submit'>Volver a Simon</button>
-    </form>";
 ?> 
