@@ -2,8 +2,6 @@
 <?php
     session_start();
 
-    $jugar = $_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['accion'] ?? '') !== 'reiniciar';
-
     $colores = array("blue", "red", "green", "yellow", "orange", "pink", "purple", "gray");
     $nCirculos = isset($_POST['nCirculos']) ? max(4, min(8, (int) $_POST['nCirculos'])) : 4;
     $nColores = isset($_POST['nColores']) ? max(4, min(8, (int) $_POST['nColores'])) : 4;
@@ -20,9 +18,16 @@
         return array_slice($colores, 0, $nColores);
     }
 
-    $_SESSION['combinacion'] = [];
-    for ($k = 0; $k < $nCirculos; $k++) {
-        $_SESSION['combinacion'][] = pintar_circulos(numero_colores($colores, $nColores));
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        if (($_POST['accion'] ?? '') === 'reiniciar') {
+            session_destroy();
+            unset($_SESSION['combinacion']);
+        } else {
+            $_SESSION['combinacion'] = [];
+            for ($k = 0; $k < $nCirculos; $k++) {
+                $_SESSION['combinacion'][] = pintar_circulos(numero_colores($colores, $nColores));
+            }
+        }
     }
 ?>
 
@@ -44,11 +49,14 @@
             <input type="submit" value="Jugar">
             <button type="submit" name="accion" value="reiniciar">Volver a poner en negro</button>
         </form>
+        <form action="mostrar_combinacion.php" method="get">
+            <button type="submit">Ver combinación</button>
+        </form>
         <br>
 
         <?php for ($k = 0; $k < $nCirculos; $k++): ?>
             <svg width="200" height="200">
-                <circle cx="70" cy="70" r="70" fill="<?= $jugar ? pintar_circulos(numero_colores($colores, $nColores)) : 'black' ?>" />
+                <circle cx="70" cy="70" r="70" fill="<?= $_SESSION['combinacion'][$k] ?? 'black' ?>" />
             </svg>  
         <?php endfor; ?>
     </body>

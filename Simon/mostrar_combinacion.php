@@ -9,4 +9,8 @@
                 <circle cx='70' cy='70' r='70' fill='$color' />
             </svg>";
     };
-?>
+    echo "</ul>";
+    echo "<form action='simon.php' method='get'>
+        <button type='submit'>Volver a Simon</button>
+    </form>";
+?> 
