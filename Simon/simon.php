@@ -3,8 +3,13 @@
     session_start();
 
     $colores = array("blue", "red", "green", "yellow", "orange", "pink", "purple", "gray");
+    $coloresESP = array("Azul", "Rojo","Verde","Amarillo","Naranja","Rosa","Morado","Gris");
     $nCirculos = isset($_POST['nCirculos']) ? max(4, min(8, (int) $_POST['nCirculos'])) : 4;
     $nColores = isset($_POST['nColores']) ? max(4, min(8, (int) $_POST['nColores'])) : 4;
+
+    if (isset($_POST['color_pulsado'])) {
+        $colorPulsado = $_POST['color_pulsado'] ?? 'black';
+    }
 
     function pintar_circulos(array $colores) {
         $color = $colores[array_rand($colores)];
@@ -22,11 +27,20 @@
         if (($_POST['accion'] ?? '') === 'reiniciar') {
             session_destroy();
             unset($_SESSION['combinacion']);
+        } elseif (isset($_POST['color_pulsado'])) {
+            $colorPulsado = $_POST['color_pulsado'];
+
+            if (in_array($colorPulsado, $colores, true)) {
+                $_SESSION['jugada'][] = $colorPulsado;
+            }
         } else {
             $_SESSION['combinacion'] = [];
+
             for ($k = 0; $k < $nCirculos; $k++) {
-                $_SESSION['combinacion'][] = pintar_circulos(numero_colores($colores, $nColores));
+                $_SESSION['combinacion'][] =
+                    pintar_circulos(numero_colores($colores, $nColores));
             }
+            $_SESSION['jugada'] = [];
         }
     }
 ?>
@@ -56,5 +70,20 @@
                 <circle cx="70" cy="70" r="70" fill="<?= $_SESSION['combinacion'][$k] ?? 'black' ?>" />
             </svg>  
         <?php endfor; ?>
+            <br>
+        <form method="post">
+            <?php for ($x = 0; $x <$nColores; $x++): ?>
+                <button type="submit" name="color_pulsado" value="<?= $colores[$x]?>" style="background-color: <?= $colores[$x]?>;">
+                    <?= $coloresESP[$x] ?>
+                </button>
+            <?php endfor; ?>
+        </form>
+        <br>
+        <?php for ($k = 0; $k < $nCirculos; $k++): ?>
+            <svg width="200" height="200">
+                <circle cx="70" cy="70" r="70" fill="<?= $colorPulsado?>" />
+            </svg>  
+        <?php endfor; ?>
+        
     </body>
 </html>
