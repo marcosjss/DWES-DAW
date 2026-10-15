@@ -71,7 +71,9 @@
             </svg>  
         <?php endfor; ?>
             <br>
-        <form method="post">
+        <form method="post" id="form-colores">
+            <input type="hidden" name="nCirculos" value="<?= $nCirculos ?>">
+            <input type="hidden" name="nColores" value="<?= $nColores ?>">
             <?php for ($x = 0; $x <$nColores; $x++): ?>
                 <button type="submit" name="color_pulsado" value="<?= $colores[$x]?>" style="background-color: <?= $colores[$x]?>;">
                     <?= $coloresESP[$x] ?>
@@ -81,9 +83,12 @@
         <br>
         <?php for ($k = 0; $k < $nCirculos; $k++): ?>
             <svg width="200" height="200">
-                <circle cx="70" cy="70" r="70" fill="<?= $colorPulsado?>" />
+                <circle cx="70" cy="70" r="70" fill="<?= $_SESSION['jugada'][$k] ?? 'black' ?>" />
             </svg>  
         <?php endfor; ?>
+
+        <!--<?php if ($_SESSION['combinacion'] === $_SESSION['jugada'])?>
+            <p>Correcto</p>-->
         
     </body>
 </html>
