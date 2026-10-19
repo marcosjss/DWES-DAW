@@ -11,9 +11,13 @@
         $colorPulsado = $_POST['color_pulsado'] ?? 'black';
     }
 
-    function pintar_circulos(array $colores) {
-        $color = $colores[array_rand($colores)];
-        return $color;
+    function pintar_circulos(array $colores, int $nCirculos) {
+        for ($k = 0; $k < $nCirculos; $k++) {
+            $color = $colores[$k] ?? 'black';
+            echo '<svg width="200" height="200">';
+                echo '<circle cx="70" cy="70" r="70" fill="' . $color . '" />';
+            echo '</svg>';
+        }
     }
 
     function numero_colores(array $colores, int $nColores) {
@@ -30,15 +34,15 @@
         } elseif (isset($_POST['color_pulsado'])) {
             $colorPulsado = $_POST['color_pulsado'];
 
-            if (in_array($colorPulsado, $colores, true)) {
+            if (in_array($colorPulsado, $colores)) {
                 $_SESSION['jugada'][] = $colorPulsado;
             }
         } else {
             $_SESSION['combinacion'] = [];
+            $coloresDisponibles = numero_colores($colores, $nColores);
 
             for ($k = 0; $k < $nCirculos; $k++) {
-                $_SESSION['combinacion'][] =
-                    pintar_circulos(numero_colores($colores, $nColores));
+                $_SESSION['combinacion'][] = $coloresDisponibles[array_rand($coloresDisponibles)];
             }
             $_SESSION['jugada'] = [];
         }
@@ -51,6 +55,11 @@
     <head>
         <meta charset="UTF-8">
         <title>Simon</title>
+        <style>
+            * {
+                text-align:center;
+            }
+        </style>
     </head>
     <body>
         <form method ="post">
@@ -63,14 +72,11 @@
             <input type="submit" value="Jugar">
             <button type="submit" name="accion" value="reiniciar">Volver a poner en negro</button>
         </form>
+
+        <br>
+        <?php pintar_circulos($_SESSION['combinacion'] ?? [], $nCirculos); ?>
         <br>
 
-        <?php for ($k = 0; $k < $nCirculos; $k++): ?>
-            <svg width="200" height="200">
-                <circle cx="70" cy="70" r="70" fill="<?= $_SESSION['combinacion'][$k] ?? 'black' ?>" />
-            </svg>  
-        <?php endfor; ?>
-            <br>
         <form method="post" id="form-colores">
             <input type="hidden" name="nCirculos" value="<?= $nCirculos ?>">
             <input type="hidden" name="nColores" value="<?= $nColores ?>">
@@ -80,15 +86,16 @@
                 </button>
             <?php endfor; ?>
         </form>
-        <br>
-        <?php for ($k = 0; $k < $nCirculos; $k++): ?>
-            <svg width="200" height="200">
-                <circle cx="70" cy="70" r="70" fill="<?= $_SESSION['jugada'][$k] ?? 'black' ?>" />
-            </svg>  
-        <?php endfor; ?>
 
-        <!--<?php if ($_SESSION['combinacion'] === $_SESSION['jugada'])?>
-            <p>Correcto</p>-->
-        
+        <br>
+        <?php pintar_circulos($_SESSION['jugada'] ?? [], $nCirculos); ?>
+
+        <?php
+            $jugada = $_SESSION['jugada'] ?? [];
+            $combinacion = $_SESSION['combinacion'] ?? [];
+            if (count($combinacion) > 0 && count($jugada) === count($combinacion)) {
+                echo $jugada === $combinacion ? '<p>Correcto</p>' : '<p>Incorrecto</p>';
+            }
+        ?>
     </body>
 </html>
