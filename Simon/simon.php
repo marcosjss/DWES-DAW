@@ -1,53 +1,5 @@
 <!--Logica-->
-<?php
-    session_start();
-
-    $colores = array("blue", "red", "green", "yellow", "orange", "pink", "purple", "gray");
-    $coloresESP = array("Azul", "Rojo","Verde","Amarillo","Naranja","Rosa","Morado","Gris");
-    $nCirculos = isset($_POST['nCirculos']) ? max(4, min(8, (int) $_POST['nCirculos'])) : 4;
-    $nColores = isset($_POST['nColores']) ? max(4, min(8, (int) $_POST['nColores'])) : 4;
-
-    if (isset($_POST['color_pulsado'])) {
-        $colorPulsado = $_POST['color_pulsado'] ?? 'black';
-    }
-
-    function pintar_circulos(array $colores, int $nCirculos) {
-        for ($k = 0; $k < $nCirculos; $k++) {
-            $color = $colores[$k] ?? 'black';
-            echo '<svg width="200" height="200">';
-                echo '<circle cx="70" cy="70" r="70" fill="' . $color . '" />';
-            echo '</svg>';
-        }
-    }
-
-    function numero_colores(array $colores, int $nColores) {
-        if ($nColores <= 0) {
-            return array();
-        }
-        return array_slice($colores, 0, $nColores);
-    }
-
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        if (($_POST['accion'] ?? '') === 'reiniciar') {
-            session_destroy();
-            unset($_SESSION['combinacion']);
-        } elseif (isset($_POST['color_pulsado'])) {
-            $colorPulsado = $_POST['color_pulsado'];
-
-            if (in_array($colorPulsado, $colores)) {
-                $_SESSION['jugada'][] = $colorPulsado;
-            }
-        } else {
-            $_SESSION['combinacion'] = [];
-            $coloresDisponibles = numero_colores($colores, $nColores);
-
-            for ($k = 0; $k < $nCirculos; $k++) {
-                $_SESSION['combinacion'][] = $coloresDisponibles[array_rand($coloresDisponibles)];
-            }
-            $_SESSION['jugada'] = [];
-        }
-    }
-?>
+<?php include "logica.php"; ?>
 
 <!--HTML-->
 <!DOCTYPE html>
@@ -58,44 +10,68 @@
         <style>
             * {
                 text-align:center;
+                
+            }
+            html {
+                //background-color: <?php if (isset($_COOKIE['cColor'])) { echo $_COOKIE['cColor'];} else {echo 'white';} ?>;
+                background-color: <?= $colorFondo ?>;
             }
         </style>
     </head>
     <body>
-        <form method ="post">
-            <p for="nCirculos">Número de círculos (4-8):
-            <input type="number" id="nCirculos" name="nCirculos" min="4" max="8" value="<?= $nCirculos ?>"></p>
-            <br>
-            <p for="nColores">Número de colores (4-8):
-            <input type="number" id="nColores" name="nColores" min="4" max="8" value="<?= $nColores ?>"></p>
-            <br>
-            <input type="submit" value="Jugar">
-            <button type="submit" name="accion" value="reiniciar">Volver a poner en negro</button>
-        </form>
+        <?php if ($fase === 'configuracion'): ?>
+            <h1>Simon</h1>
+            <form method="post">
+                <p>Número de círculos (4-8):
+                    <input type="number" id="nCirculos" name="nCirculos" min="4" max="8" value="<?= $nCirculos ?>" required>
+                </p>
+                <p>Número de colores (4-8):
+                    <input type="number" id="nColores" name="nColores" min="4" max="8" value="<?= $nColores ?>" required>
+                </p>
+                <button type="submit" name="accion" value="iniciar">Empezar</button>
+            </form>
+            <form method="post">
+                <p>Color de fondo
+                    <input name="cColor" required></input>
+                    <button type="submit" name="accion" value="fondo">Cambiar color </button>
+                </p>
+            </form>
 
-        <br>
-        <?php pintar_circulos($_SESSION['combinacion'] ?? [], $nCirculos); ?>
-        <br>
+        <?php elseif ($fase === 'memorizacion'): ?>
+            <h1>Memoriza la combinación</h1>
+            <?php pintar_circulos($_SESSION['combinacion'] ?? [], $nCirculos); ?>
+            <form method="post">
+                <button type="submit" name="accion" value="comenzar_juego">Empezar juego</button>
+            </form>
+        <?php elseif ($fase === 'juego'): ?>
+            <h1>Introduce la combinación</h1>
+            <!--<?php pintar_circulos($_SESSION['combinacion'] ?? [], $nCirculos); ?>-->
 
-        <form method="post" id="form-colores">
-            <input type="hidden" name="nCirculos" value="<?= $nCirculos ?>">
-            <input type="hidden" name="nColores" value="<?= $nColores ?>">
-            <?php for ($x = 0; $x <$nColores; $x++): ?>
-                <button type="submit" name="color_pulsado" value="<?= $colores[$x]?>" style="background-color: <?= $colores[$x]?>;">
-                    <?= $coloresESP[$x] ?>
-                </button>
-            <?php endfor; ?>
-        </form>
+            <?php pintar_circulos($_SESSION['jugada'] ?? [], $nCirculos); ?>
 
-        <br>
-        <?php pintar_circulos($_SESSION['jugada'] ?? [], $nCirculos); ?>
+            <form method="post" id="form-colores">
+                <?php for ($x = 0; $x < $nColores; $x++): ?>
+                    <button type="submit" name="color_pulsado" value="<?= $colores[$x] ?>" style="background-color: <?= $colores[$x] ?>;">
+                        <?= $coloresESP[$x] ?>
+                    </button>
+                <?php endfor; ?>
+            </form>
+        <?php else: ?>
+            <?php
+                $jugada = $_SESSION['jugada'] ?? [];
+                $combinacion = $_SESSION['combinacion'] ?? [];
+            ?>
+            <h1>Resultado</h1>
+            <p>Combinación correcta:</p>
+            <?php pintar_circulos($combinacion, $nCirculos); ?>
 
-        <?php
-            $jugada = $_SESSION['jugada'] ?? [];
-            $combinacion = $_SESSION['combinacion'] ?? [];
-            if (count($combinacion) > 0 && count($jugada) === count($combinacion)) {
-                echo $jugada === $combinacion ? '<p>Correcto</p>' : '<p>Incorrecto</p>';
-            }
-        ?>
+            <p>Tu combinación:</p>
+            <?php pintar_circulos($jugada, $nCirculos); ?>
+
+            <p><?= $jugada === $combinacion ? 'Correcto' : 'Incorrecto' ?></p>
+            <form method="post">
+                <button type="submit" name="accion" value="reiniciar">Volver a empezar</button>
+            </form>
+        <?php endif; ?>
     </body>
 </html>
