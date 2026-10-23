@@ -85,9 +85,10 @@
     }
 
     //CONSULTAS BD
-    function consultaSelect(PDO $conexion) {
+    /*function consultaSelect(PDO $conexion) {
+        require_once 'conexion.php';
         try {
-            $sql = "SELECT * FROM usuarios";
+            $sql = "SELECT Codigo, Nombre, Clave FROM usuarios";
             $stmt = $conexion->prepare($sql);
             $stmt->execute();
             echo "<h3>Listado de Alumnos Aprobados:</h3>";
@@ -105,6 +106,25 @@
         } catch (PDOException $e) {
             error_log("Error en SELECT: " . $e->getMessage());
             echo "No se pudieron obtener los alumnos.";
+        }
+    }*/
+
+    function registroUsuario(PDO $conexion) {
+        require_once 'conexion.php';
+        $nombreNuevo = "";
+        $claveNueva = "";
+        $rolNuevo = 0;
+        try {
+            $sql = "INSERT INTO usuarios (Nombre, Clave, Rol) VALUES (:nom, :clave, :rol)";
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute([
+            ':nom' => $nombreNuevo,
+            ':clave' => $claveNueva,
+            ':rol' => $rolNuevo
+            ]);
+        } catch (PDOException $e) {
+            error_log("Error en INSERT: " . $e->getMessage());
+            echo "Error: No se pudo guardar el registro del alumno.";
         }
     }
 ?>

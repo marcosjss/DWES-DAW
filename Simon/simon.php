@@ -3,8 +3,6 @@
 <?php /*$conexion=*/include "conexion.php";?>
 <?php include "cierre.php";?>
 
-<?php consultaSelect($conexion);?>
-
 <!--HTML-->
 <!DOCTYPE html>
 <html lang="es">
@@ -25,7 +23,7 @@
                 border-collapse: collapse;
             }
             table {
-                margin: 0 auto;
+                margin: auto;
             }
         </style>
     </head>

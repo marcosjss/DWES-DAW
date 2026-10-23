@@ -2,10 +2,8 @@
     $host="localhost";
     $usuario="root";
     $password="";
-    $bd="agenda";
-    //$puerto="8080";
+    $bd="simon";
     
-    //$dsn="mysql:host=$host;port=$puerto;dbname=$bd;charset=utf8mb4";
     $dsn="mysql:host=$host;dbname=$bd;charset=utf8mb4";
     
     try {

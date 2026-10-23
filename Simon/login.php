@@ -45,5 +45,6 @@
             <button type="submit" name="accion" value="iniciar">Entrar</button>
             <p style = "color : red"><?php echo"$msgError $passwordHash"?></p>
         </form>
+        <button type="button" onclick="window.location.href='registro.php'">Registro</button>
     </body>
 </html>
