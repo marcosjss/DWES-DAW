@@ -83,4 +83,28 @@
             'samesite' => 'Lax' 
         ]);
     }
+
+    //CONSULTAS BD
+    function consultaSelect(PDO $conexion) {
+        try {
+            $sql = "SELECT * FROM usuarios";
+            $stmt = $conexion->prepare($sql);
+            $stmt->execute();
+            echo "<h3>Listado de Alumnos Aprobados:</h3>";
+            
+            echo "<table><thead><tr><th>Código</th><th>Nombre</th><th>Clave</th></tr></thead><tbody>";
+
+            while ($fila = $stmt->fetch()) {
+                $codigo = htmlspecialchars($fila['Codigo']);
+                $nombre = htmlspecialchars($fila['Nombre']);
+                $clave = htmlspecialchars((string)$fila['Clave']);
+                echo "<tr><td>$codigo</td><td>$nombre</td><td>$clave</td></tr>";
+            }
+            echo "</tbody></table>";
+
+        } catch (PDOException $e) {
+            error_log("Error en SELECT: " . $e->getMessage());
+            echo "No se pudieron obtener los alumnos.";
+        }
+    }
 ?>

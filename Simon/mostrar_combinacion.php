@@ -9,9 +9,4 @@
             </svg>";
     };
     var_dump($_SESSION);
-
-    //Pulso boton amarillo
-    //Pinta 1er circulo de amarillo
-    //Actualizo el array $_SESSION['jugada']
-    //Actualizo el array $_SESSION['pulsaciones'] con pulsaciones++
 ?> 

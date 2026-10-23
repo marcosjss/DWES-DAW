@@ -1,5 +1,9 @@
 <!--Logica-->
-<?php include "logica.php"; ?>
+<?php include "logica.php";?>
+<?php /*$conexion=*/include "conexion.php";?>
+<?php include "cierre.php";?>
+
+<?php consultaSelect($conexion);?>
 
 <!--HTML-->
 <!DOCTYPE html>
@@ -8,13 +12,20 @@
         <meta charset="UTF-8">
         <title>Simon</title>
         <style>
-            * {
+            * { 
                 text-align:center;
-                
             }
             html {
                 //background-color: <?php if (isset($_COOKIE['cColor'])) { echo $_COOKIE['cColor'];} else {echo 'white';} ?>;
                 background-color: <?= $colorFondo ?>;
+            }
+            
+            table, th, td {
+                border: 1px solid black;
+                border-collapse: collapse;
+            }
+            table {
+                margin: 0 auto;
             }
         </style>
     </head>
@@ -38,17 +49,15 @@
             </form>
 
         <?php elseif ($fase === 'memorizacion'): ?>
-            <h1>Memoriza la combinación</h1>
+            <h1>Combinacion generada:</h1>
             <?php pintar_circulos($_SESSION['combinacion'] ?? [], $nCirculos); ?>
             <form method="post">
                 <button type="submit" name="accion" value="comenzar_juego">Empezar juego</button>
             </form>
+
         <?php elseif ($fase === 'juego'): ?>
             <h1>Introduce la combinación</h1>
-            <!--<?php pintar_circulos($_SESSION['combinacion'] ?? [], $nCirculos); ?>-->
-
             <?php pintar_circulos($_SESSION['jugada'] ?? [], $nCirculos); ?>
-
             <form method="post" id="form-colores">
                 <?php for ($x = 0; $x < $nColores; $x++): ?>
                     <button type="submit" name="color_pulsado" value="<?= $colores[$x] ?>" style="background-color: <?= $colores[$x] ?>;">
@@ -56,6 +65,7 @@
                     </button>
                 <?php endfor; ?>
             </form>
+
         <?php else: ?>
             <?php
                 $jugada = $_SESSION['jugada'] ?? [];
