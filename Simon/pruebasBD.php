@@ -1,6 +1,5 @@
 <?php include "logica.php";?>
 <?php /*$conexion=*/include "conexion.php";?>
-<?php include "cierre.php";?>
 
 <?php consultaSelect($conexion);?>
 

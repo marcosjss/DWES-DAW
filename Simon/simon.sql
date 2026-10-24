@@ -86,9 +86,9 @@ INSERT INTO `jugadas` (`codjugada`, `codigousu`, `acierto`) VALUES
 --
 
 CREATE TABLE `usuarios` (
-  `Codigo` int(11) NOT NULL,
+  `Codigo` int(11) NOT NULL AUTO_INCREMENT,
   `Nombre` varchar(20) NOT NULL,
-  `Clave` varchar(20) NOT NULL,
+  `Clave` varchar(255) NOT NULL,
   `Rol` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 

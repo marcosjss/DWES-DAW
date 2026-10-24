@@ -1,7 +1,6 @@
 <!--Logica-->
 <?php include "logica.php";?>
-<?php /*$conexion=*/include "conexion.php";?>
-<?php include "cierre.php";?>
+<?php $conexion=include "conexion.php";?>
 
 <!--HTML-->
 <!DOCTYPE html>
@@ -17,19 +16,11 @@
                 //background-color: <?php if (isset($_COOKIE['cColor'])) { echo $_COOKIE['cColor'];} else {echo 'white';} ?>;
                 background-color: <?= $colorFondo ?>;
             }
-            
-            table, th, td {
-                border: 1px solid black;
-                border-collapse: collapse;
-            }
-            table {
-                margin: auto;
-            }
         </style>
     </head>
     <body>
         <?php if ($fase === 'configuracion'): ?>
-            <h1>Simon</h1>
+            <h1>Simon - <?= htmlspecialchars($_SESSION['usuario_nombre'] ?? '', ENT_QUOTES, 'UTF-8') ?></h1>
             <form method="post">
                 <p>Número de círculos (4-8):
                     <input type="number" id="nCirculos" name="nCirculos" min="4" max="8" value="<?= $nCirculos ?>" required>
@@ -44,6 +35,9 @@
                     <input name="cColor" required></input>
                     <button type="submit" name="accion" value="fondo">Cambiar color </button>
                 </p>
+            </form>    
+            <form method="post" action="cierre.php">
+                <button type="submit">Cerrar sesión</button>
             </form>
 
         <?php elseif ($fase === 'memorizacion'): ?>

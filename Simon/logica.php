@@ -108,23 +108,4 @@
             echo "No se pudieron obtener los alumnos.";
         }
     }*/
-
-    function registroUsuario(PDO $conexion) {
-        require_once 'conexion.php';
-        $nombreNuevo = "";
-        $claveNueva = "";
-        $rolNuevo = 0;
-        try {
-            $sql = "INSERT INTO usuarios (Nombre, Clave, Rol) VALUES (:nom, :clave, :rol)";
-            $stmt = $pdo->prepare($sql);
-            $stmt->execute([
-            ':nom' => $nombreNuevo,
-            ':clave' => $claveNueva,
-            ':rol' => $rolNuevo
-            ]);
-        } catch (PDOException $e) {
-            error_log("Error en INSERT: " . $e->getMessage());
-            echo "Error: No se pudo guardar el registro del alumno.";
-        }
-    }
 ?>
