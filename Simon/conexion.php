@@ -1,7 +1,8 @@
 <?php
     //Cambiar en clase el 3307 por 3306
+    //Cambiar en BD el codigo a autoincremental y la conntraseña a varchar 255 para el hash
     $host="localhost";
-    $port = "3307";
+    $port = "3306";
     $usuario="root";
     $password="";
     $bd="simon";

@@ -17,7 +17,7 @@
                 $conexion = require 'conexion.php';
                 $stmt = $conexion->prepare('SELECT Codigo, Nombre, Clave FROM usuarios WHERE Nombre = ?');
                 $stmt->execute([$nombreLogin]);
-                $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
+                $usuario = $stmt->fetch();
 
                 if ($usuario && password_verify($claveLogin, $usuario['Clave'])) {
                     session_regenerate_id(true);
@@ -40,8 +40,7 @@
 <html lang="es">
     <head>
         <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Document</title>
+        <title>Login</title>
         <style>
             * {
                 text-align:center;
@@ -52,16 +51,17 @@
         </style>
     </head>
     <body>
+        <h1>Login</h1>
         <form method="post">
             <p>Usuario:
                 <input type="text" id="usuario" name="usuario"
-                       value="<?= htmlspecialchars($nombreLogin, ENT_QUOTES, 'UTF-8') ?>" required>
+                       value="<?= $nombreLogin ?>" required>
             </p>
             <p>Contraseña:
                 <input type="password" id="password" name="password" required>
             </p>
             <button type="submit" name="accion" value="iniciar">Entrar</button>
-            <p style="color: red"><?= htmlspecialchars($msgError, ENT_QUOTES, 'UTF-8') ?></p>
+            <p style="color: red"><?= $msgError ?></p>
         </form>
         <button type="button" onclick="window.location.href='registro.php'">Registro</button>
     </body>
