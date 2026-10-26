@@ -1,5 +1,6 @@
 <?php
     session_start();
+    require_once 'cierre.php';
     $nombreNuevo = '';
     $mensaje = '';
 
@@ -16,10 +17,10 @@
                 $stmt = $conexion->prepare($sql);
                 $stmt->execute([$nombreNuevo, password_hash($claveNueva, PASSWORD_DEFAULT)]);
 
-                session_regenerate_id(true);
                 $_SESSION['usuario_id'] = (int) $conexion->lastInsertId();
                 $_SESSION['usuario_nombre'] = $nombreNuevo;
                 header('Location: simon.php');
+                $conexion = cierre();
                 exit;
             } catch (PDOException $e) {
                 error_log('Error al registrar usuario: ' . $e->getMessage());
@@ -52,6 +53,6 @@
             <button type="submit">Registrarse</button>
             <p style="color: red"><?= $mensaje ?></p>
         </form>
-        <button type="button" onclick="window.location.href='login.php'">Volver al login</button>
+        <button type="button" onclick="window.location.href='index.php'">Volver al login</button>
     </body>
 </html>

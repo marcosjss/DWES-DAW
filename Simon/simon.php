@@ -37,7 +37,7 @@
                 </p>
             </form>    
             <form method="post" action="cierre.php">
-                <button type="submit">Cerrar sesión</button>
+                <button type="submit" name="accion" value="cerrar_sesion">Cerrar sesión</button>
             </form>
 
         <?php elseif ($fase === 'memorizacion'): ?>
