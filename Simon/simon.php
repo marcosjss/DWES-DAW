@@ -1,7 +1,11 @@
 <!--Logica-->
 <?php include "logica.php";?>
 <?php $conexion=include "conexion.php";?>
-
+<?php
+    session_start();
+    require_once 'seguridad.php';
+    filtrar_acceso(false);
+?>
 <!--HTML-->
 <!DOCTYPE html>
 <html lang="es">
@@ -20,7 +24,7 @@
     </head>
     <body>
         <?php if ($fase === 'configuracion'): ?>
-            <h1>Simon - <?= htmlspecialchars($_SESSION['usuario_nombre'] ?? '', ENT_QUOTES, 'UTF-8') ?></h1>
+            <h1>Simon - <?= htmlspecialchars($_SESSION['usuario']['Nombre'] ?? '') ?></h1>
             <form method="post">
                 <p>Número de círculos (4-8):
                     <input type="number" id="nCirculos" name="nCirculos" min="4" max="8" value="<?= $nCirculos ?>" required>

@@ -16,19 +16,23 @@
             $nombreLogin = trim($nombreLogin);
             try {
                 $conexion = require 'conexion.php';
-                $stmt = $conexion->prepare('SELECT Codigo, Nombre, Clave FROM usuarios WHERE Nombre = ?');
+                $stmt = $conexion->prepare('SELECT Codigo, Nombre, Clave, Rol FROM usuarios WHERE Nombre = ?');
                 $stmt->execute([$nombreLogin]);
                 $usuario = $stmt->fetch();
 
                 if ($usuario && password_verify($claveLogin, $usuario['Clave'])) {
-                    $_SESSION['usuario_id'] = (int) $usuario['Codigo'];
-                    $_SESSION['usuario_nombre'] = $usuario['Nombre'];
-                    header('Location: simon.php');
+                    $_SESSION['usuario'] = [
+                        'Codigo' => (int) $usuario['Codigo'],
+                        'Nombre' => $usuario['Nombre'],
+                        'Rol' => (int) $usuario['Rol']
+                    ];
+
+                    header('Location: ' . ((int) $usuario['Rol'] === 1 ? 'admin.php' : 'simon.php'));
                     exit;
                 }
 
                 $msgError = 'Usuario o contraseña incorrectos.';
-                $conexion = cerrar();
+                $conexion = cerrar($conexion);
             } catch (PDOException $e) {
                 error_log('Error al iniciar sesión: ' . $e->getMessage());
                 $msgError = 'No se pudo iniciar sesión. Comprueba la conexión.';

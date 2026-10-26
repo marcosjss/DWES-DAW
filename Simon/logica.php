@@ -1,11 +1,18 @@
 <?php
-    session_start();
     $colores = array("blue", "red", "green", "yellow", "orange", "pink", "purple", "gray");
     $coloresESP = array("Azul", "Rojo","Verde","Amarillo","Naranja","Rosa","Morado","Gris");
     $fase = $_SESSION['fase'] ?? 'configuracion';
-    $nCirculos = $_SESSION['nCirculos'] ?? 4;
-    $nColores = $_SESSION['nColores'] ?? 4;
+    //$nCirculos = $_SESSION['nCirculos'] ?? 4;
+    //$nColores = $_SESSION['nColores'] ?? 4;
     $colorFondo = $_COOKIE['cColor'] ?? 'white';
+
+    $conexion = require 'conexion.php';
+    $stmt = $conexion->query(
+        'SELECT * FROM configuracion WHERE id = 1'
+    );
+    $configuracion = $stmt->fetch();
+    $nCirculos = (int) ($configuracion['nCirculos'] ?? 4);
+    $nColores = (int) ($configuracion['nColores'] ?? 4);
 
     function pintar_circulos(array $colores, int $nCirculos) {
         for ($k = 0; $k < $nCirculos; $k++) {
