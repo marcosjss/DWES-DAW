@@ -31,7 +31,7 @@ $estadisticas = $stmt->fetchAll();
     </head>
     <body>
         <h2>SIMÓN - Estadísticas Globales</h2>
-        <p><?= htmlspecialchars($_SESSION['usuario']['Nombre'], ENT_QUOTES, 'UTF-8') ?>, los resultados son:</p>
+        <p><?= htmlspecialchars($_SESSION['usuario']['Nombre']) ?>, los resultados son:</p>
         <table>
             <thead>
                 <tr>
@@ -46,16 +46,18 @@ $estadisticas = $stmt->fetchAll();
                     <?php $ancho = min((int) $fila['aciertos'], 25) * 6; ?>
                     <tr>
                         <td><?= (int) $fila['Codigo'] ?></td>
-                        <td><?= htmlspecialchars($fila['Nombre'], ENT_QUOTES, 'UTF-8') ?></td>
+                        <td><?= htmlspecialchars($fila['Nombre']) ?></td>
                         <td><?= (int) $fila['aciertos'] ?></td>
                         <td><div class="barra"><span style="width: <?= $ancho ?>px;"></span></div></td>
                     </tr>
                 <?php endforeach; ?>
             </tbody>
         </table>
+        <br>
         <form action="inicio.php">
             <button type="submit">Volver a jugar</button>
         </form>
+        <br>
         <form method="post" action="cierre.php">
             <button type="submit" name="accion" value="cerrar_sesion">Cerrar sesión</button>
         </form>
