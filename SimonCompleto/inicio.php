@@ -2,6 +2,11 @@
 session_start();
 require_once 'seguridad.php';
 filtrar_acceso(false);
+
+if (!in_array($_SESSION['fase'] ?? '', ['memorizacion', 'juego'], true)) {
+    unset($_SESSION['nCirculos'], $_SESSION['nColores']);
+}
+
 require_once 'pintar-circulos.php';
 
 if (($_POST['accion'] ?? '') === 'reiniciar') {
