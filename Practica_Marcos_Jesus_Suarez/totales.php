@@ -63,7 +63,7 @@ $codigoConectado = (int) $_SESSION['usuario']['codigo'];
 				<th>Código</th>
 				<th>Nombre</th>
 				<th>Contactos</th>
-				<th>% sobre el total</th>
+				<th>%</th>
 				<th>Último alta</th>
 				<th>Gráfica</th>
 			</tr>
