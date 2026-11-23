@@ -1,3 +1,4 @@
+<!-- LOGICA -->
 <?php
     session_start();
     require_once 'cierre.php';
@@ -23,12 +24,12 @@
                 $conexion = cierre();
                 exit;
             } catch (PDOException $e) {
-                error_log('Error al registrar usuario: ' . $e->getMessage());
                 $mensaje = "Este usuario ya existe o un campo es incorrecto";
             }
         }
     }
 ?>
+<!-- HTML -->
 <!DOCTYPE html>
 <html lang="es">
     <head>

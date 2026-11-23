@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 28-10-2026 a las 14:13:58
+-- Tiempo de generación: 23-11-2026 a las 09:40:19
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -32,7 +32,7 @@ CREATE TABLE `configuracion` (
   `max_lote` int(11) DEFAULT NULL,
   `num_emojis` int(11) DEFAULT NULL,
   `max_contactos` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ;
 
 --
 -- Volcado de datos para la tabla `configuracion`
@@ -68,8 +68,8 @@ CREATE TABLE `usuarios` (
   `codigo` int(11) NOT NULL,
   `nombre` varchar(20) NOT NULL,
   `passwrd` varchar(255) NOT NULL,
-  `rol` tinyint(4) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `rol` tinyint(1) NOT NULL
+) ;
 
 --
 -- Volcado de datos para la tabla `usuarios`
@@ -100,7 +100,8 @@ ALTER TABLE `contactos`
 -- Indices de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  ADD PRIMARY KEY (`codigo`);
+  ADD PRIMARY KEY (`codigo`),
+  ADD UNIQUE KEY `nombre_UQ` (`nombre`);
 
 --
 -- AUTO_INCREMENT de las tablas volcadas
@@ -110,7 +111,7 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de la tabla `configuracion`
 --
 ALTER TABLE `configuracion`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `contactos`
@@ -122,7 +123,7 @@ ALTER TABLE `contactos`
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `codigo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `codigo` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- Restricciones para tablas volcadas

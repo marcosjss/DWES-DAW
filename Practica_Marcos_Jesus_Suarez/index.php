@@ -34,7 +34,6 @@
                 $msgError = 'Usuario o contraseña incorrectos.';
                 $conexion = cerrar($conexion);
             } catch (PDOException $e) {
-                error_log('Error al iniciar sesión: ' . $e->getMessage());
                 $msgError = 'No se pudo iniciar sesión. Comprueba la conexión.';
             }
         }

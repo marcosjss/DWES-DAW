@@ -5,7 +5,7 @@ function filtrar_acceso($adminRequerido = false) {
         exit();
     }
 
-    $rol = (int)$_SESSION['usuario']['Rol'];
+    $rol = (int)$_SESSION['usuario']['rol'];
 
     if($rol === 1 && !$adminRequerido) {
         header("Location: admin.php");
