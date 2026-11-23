@@ -9,6 +9,7 @@ if (empty($_SESSION['emojisLote']) || !is_array($_SESSION['emojisLote'])) {
     exit;
 }
 
+$errorBD='';
 $cantidad = count($_SESSION['emojisLote']);
 $valores = array_fill(0, $cantidad, []);
 $errores = array_fill(0, $cantidad, []);
@@ -28,33 +29,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     if (!$hayErrores) {
-        try {
-            $conexion->beginTransaction();
-
-            $stmt = $conexion->prepare(
-                'INSERT INTO contactos
-                    (codigousu, nombre, apellidos, telefono, email, emoji, fecha)
-                VALUES (?, ?, ?, ?, ?, ?, NOW())'
-            );
-
-            for ($i = 0; $i < $cantidad; $i++) {
-                $stmt->execute([
-                    $_SESSION['usuario']['codigo'],
-                    trim($valores[$i]['nombre']),
-                    trim($valores[$i]['apellidos']),
-                    trim($valores[$i]['telefono']),
-                    trim($valores[$i]['email']),
-                    $_SESSION['emojisLote'][$i]
-                ]);
-            }
-            $conexion->commit();
-            unset($_SESSION['emojisLote']);
-            header('Location: inicio.php');
-            exit;
-        } catch (PDOException $e) {
-            $conexion->rollBack();
-            $errorBD = 'No se han podido guardar los datos'
-        }
+        $_SESSION['contactosPendientes'] = $valores;
+        header('Location: grabado.php');
+        exit;
     }
 }
 ?>

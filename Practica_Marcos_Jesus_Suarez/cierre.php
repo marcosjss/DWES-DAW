@@ -12,7 +12,9 @@
         exit;
     }
 
-    if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['accion'] ?? '') === 'cerrar_sesion') {
+    $accion = $_POST['accion'] ?? $_GET['accion'] ?? '';
+
+    if ($accion === 'cerrar_sesion') {
         cerrarSesion();
     }
 ?>

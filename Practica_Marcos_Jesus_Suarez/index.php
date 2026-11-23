@@ -62,6 +62,6 @@
             <button type="submit" name="accion" value="iniciar">Entrar</button>
             <p style="color: red"><?= $msgError ?></p>
         </form>
-        <button type="button" onclick="window.location.href='registro.php'">Registro</button>
+        <a href="registro.php">Registro</a>
     </body>
 </html>

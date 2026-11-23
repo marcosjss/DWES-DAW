@@ -49,7 +49,7 @@ function pintarFormularioContacto(int $i, string $emoji, array $valores, array $
     $emoji = ($emoji);
 
     return '<div>
-        <p>Contacto ' . $i . ': ' . $emoji . '</p>
+        <p>Contacto ' . ($i+1) . ': ' . $emoji . '</p>
         <input type="hidden" name="contactos[' . $i . '][emoji]" value="' . $emoji . '">
 
         <p>Nombre: <input name="contactos[' . $i . '][nombre]" value="' . $nombre . '" required>

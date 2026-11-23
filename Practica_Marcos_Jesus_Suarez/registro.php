@@ -51,6 +51,6 @@
             <button type="submit">Registrarse</button>
             <p style="color: red"><?= $mensaje ?></p>
         </form>
-        <button type="button" onclick="window.location.href='index.php'">Volver al login</button>
+        <a href="index.php">Volver al login</a>
     </body>
 </html>
